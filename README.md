@@ -1,7 +1,7 @@
-# MUSUBI
+# MUSUBI — 만나러 가는 길
 
-Couple app design review. Interactive HTML, a 36-second introduction, and three screen previews.
+Couples app design review focused on Dynamic Island and Lock Screen Live Activity. 42-second video, interactive arrival mode, earlier couple screens and a draft introduction.
 
-Distances, invitations and partner states are illustrative. No actual location, messages, payment or iPhone Live Activity integration is performed. Cards remain in the local browser.
+Each displayed distance is the person’s remaining distance to the same meeting place. Bus and subway movement is simulated and time-compressed. No real GPS, device sharing, routing or ActivityKit integration is implemented by this HTML.
 
-3D device credits: assets/CREDITS.txt. Original font license: app/assets/GowunBatang-OFL.txt.
+3D device credits for the earlier screenshots: assets/CREDITS.txt. Font license: app/assets/GowunBatang-OFL.txt.
