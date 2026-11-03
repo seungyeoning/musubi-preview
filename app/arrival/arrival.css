@@ -15,3 +15,6 @@
 .phone[data-surface=home] .status{right:13px}
 
 .phone[data-surface=home] .compact-leading{top:8px;height:22px}.compact-leading svg{overflow:visible}
+
+/* Keep the attachment stationary; only the string path moves. */
+.phone[data-surface=home] .compact-leading{top:8px}.compact-leading svg{transform:none!important}
