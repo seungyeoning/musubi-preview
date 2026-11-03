@@ -4,8 +4,8 @@ let dt=Math.min(.05,Math.max(0,state.time-ropeTime));ropeTime=state.time;
 if(state.tapAt!==undefined&&state.tapAt!==lastTap){lastTap=state.tapAt;for(let i=1;i<count;i++)rope[i].vy-=18*i/(count-1);}
 if(dt>0&&!reduced){const steps=Math.max(1,Math.ceil(dt/.008)),h=dt/steps;
 for(let k=0;k<steps;k++){const old=rope.map(n=>({x:n.x,y:n.y}));
-for(let i=1;i<count;i++){const n=rope[i],f=i/(count-1);const breeze=(Math.sin(state.time*1.3)+.35*Math.sin(state.time*2.7))*9*(1-pull);n.vx+=(breeze*f)*h;n.vy+=(28*(1-.75*pull))*h;
-if(i===count-1){const targetX=28+6*pull,targetY=19*(1-pull)+11*pull,stiff=12+90*Math.pow(pull,3);n.vx+=(targetX-n.x)*stiff*h;n.vy+=(targetY-n.y)*stiff*h;}
+for(let i=1;i<count;i++){const n=rope[i],f=i/(count-1);const breeze=(Math.sin(state.time*1.3)+.35*Math.sin(state.time*2.7))*9*(1-pull);n.vx+=(breeze*f)*h;n.vy+=(12*(1-.75*pull))*h;
+if(i===count-1){const targetX=28+6*pull,targetY=19*(1-pull)+11*pull,stiff=70+230*Math.pow(pull,3);n.vx+=(targetX-n.x)*stiff*h;n.vy+=(targetY-n.y)*stiff*h;}
 const drag=Math.exp(-2.7*h);n.vx*=drag;n.vy*=drag;n.x+=n.vx*h;n.y+=n.vy*h;}
 const segment=(34-2*pull)/(count-1);
 for(let pass=0;pass<9;pass++){rope[0].x=2;rope[0].y=11;for(let i=1;i<count;i++){const l=rope[i-1],n=rope[i],dx=n.x-l.x,dy=n.y-l.y,len=Math.hypot(dx,dy)||1,fix=(len-segment)/len;if(i===1){n.x-=dx*fix;n.y-=dy*fix;}else{l.x+=dx*fix*.5;l.y+=dy*fix*.5;n.x-=dx*fix*.5;n.y-=dy*fix*.5;}}
