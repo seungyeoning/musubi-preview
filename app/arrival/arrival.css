@@ -13,3 +13,5 @@
 .phone[data-surface=home] .compact-leading{left:4px;top:9px;width:30px;height:22px}
 .phone[data-surface=home] .status .bars{font-size:8px;letter-spacing:0}
 .phone[data-surface=home] .status{right:13px}
+
+.phone[data-surface=home] .compact-leading{top:8px;height:22px}.compact-leading svg{overflow:visible}
