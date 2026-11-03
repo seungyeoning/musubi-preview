@@ -3,3 +3,4 @@
 .compact-leading svg{stroke-width:1.7}.compact-leading circle{fill:var(--red);stroke:none}
 @media(max-height:780px){.film .home-tile{top:315px}.film .app-grid{top:530px}.film .home-date{top:100px}.film .home-date strong{font-size:32px}.film .lock-top{top:57px}.film .clock{font-size:88px}.film .lock-message{top:275px}.film .live-card{bottom:123px}.film .lock-bottom{bottom:37px}}
 .phone.has-expanded .home-date{opacity:0}
+@media(max-height:660px){.film .home-date{top:86px}.film .home-date strong{font-size:28px}.film .home-tile{top:270px;padding:20px}.film .app-grid{display:none}.film .dock{bottom:35px}.film .lock-top{top:46px}.film .lock-top p{font-size:13px;margin-top:11px}.film .clock{font-size:70px}.film .lock-message{display:none}.film .live-card{bottom:108px}.film .live-title .brand{font-size:21px}.film .arrival-status{font-size:8px}.film .live-people b{font-size:20px}.film .lock-bottom{bottom:34px}}
