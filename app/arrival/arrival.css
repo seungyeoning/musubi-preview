@@ -23,3 +23,6 @@
 .phone[data-surface=home] .compact-leading{top:8px}
 
 .meeting-controls{margin-top:24px;border-top:1px solid #ffffff22;padding-top:20px}.meeting-controls h3{font-size:15px;font-weight:500}.meeting-controls p{font-size:12px;min-height:32px;color:#c7b7b3}.meeting-controls>div{display:flex;gap:8px}.meeting-controls button{padding:12px 10px;border:1px solid #ffffff30;border-radius:12px;background:transparent;font-size:12px}.meeting-controls button:disabled{background:#f0526020;border-color:#f05260;color:#ffabb2;cursor:default}.meeting-controls #meeting-reset{border:0;text-decoration:underline;color:#9da7b4;font-size:11px;padding-left:0}.meeting-controls small{margin:0!important}
+
+/* Let the two endpoint marks give way to one shared knot. */
+.is-tying .thread-art g{opacity:0;transition:opacity 1s}.is-tying .thread-art .left-thread{stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
