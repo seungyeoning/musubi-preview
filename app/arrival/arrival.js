@@ -10,15 +10,16 @@
  return mini?{x:nx,y:ny}:{x:oldX*(1-gather)+((a+b)/2+(nx-18)*scale)*gather,y:oldY*(1-gather)+(34+(ny-11)*scale)*gather};});
  return pts.map((n,i)=>(i?'L':'M')+n.x.toFixed(2)+' '+n.y.toFixed(2)).join(' ')
  }const pull=clamp(1-d/initial);
-// My half of the rope: its visible start and midpoint stay still.
-// One slow arm-like lift and fall every 5.8 seconds, with a slight soft lag.
-const slack=Math.pow(1-pull,1.2),amplitude=.4+6*slack,frequency=2*Math.PI/5.8;
-rope=Array.from({length:25},(_,i)=>{const f=i/24,envelope=Math.sin(Math.PI*f);
- const sag=3.2*slack;
- const wave=reduced?0:amplitude*Math.sin(state.time*frequency-.45*Math.sin(Math.PI*f));
+// Visible endpoints remain fixed. A slow travelling wave loses all slack
+// as the two example positions come within the same 50 m meeting threshold.
+const pairDistance=meetingDistance(),meters=pairDistance===null?d*1000:pairDistance;
+const slack=Math.pow(clamp((meters-50)/5000),.8),amplitude=.045+6.4*slack,frequency=2*Math.PI/5.8;
+rope=Array.from({length:41},(_,i)=>{const f=i/40,envelope=Math.sin(Math.PI*f);
+ const sag=2.6*slack;
+ const wave=reduced?0:amplitude*Math.sin(state.time*frequency-f*Math.PI*1.65);
  const age=state.tapAt===undefined?99:Math.max(0,state.time-state.tapAt);
- const tap=reduced?0:Math.sin(age*4)*Math.exp(-age*2)*(1+slack);
- return {x:2+32*f,y:i===0||i===24?11:11+envelope*(sag+wave+tap)};
+ const tap=reduced?0:Math.sin(age*4-f*2)*Math.exp(-age*2)*(.06+1.9*slack);
+ return {x:2+32*f,y:i===0||i===40?11:11+envelope*(sag+wave+tap)};
 });
 return rope.map((n,i)=>{const x=mini?n.x:a+(n.x-2)/32*(b-a),y=mini?n.y:31+(n.y-11)*2;return(i?'L':'M')+x.toFixed(2)+' '+y.toFixed(2)}).join(' ')
 }all('.left-thread').forEach(e=>e.setAttribute('d',thread(29,282,Math.max(bus,metro),8.2)));const ease=t=>t*t*(3-2*t),k=ease(p);for(const [name,x] of [['bus',38],['metro',292]]){const e=$('.route-'+name);e.setAttribute('cx',(x+(165-x)*k).toFixed(1));e.setAttribute('cy',(12+133*k).toFixed(1));}all('[data-born]').forEach(e=>e.classList.toggle('hidden',film&&state.time<Number(e.dataset.born)));all('.surface-tabs button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.surface===state.surface)));$('#expand-button').textContent='상대가 실 톡 건드리기';$('#expand-button').hidden=state.surface!=='home';$('#progress').value=p*100;$('#progress-value').textContent=arrived?'바로 가까이':near?'1 km 안':p===0?'출발':Math.round(p*100)+'%';renderMeeting();return{...state,busKm:bus,metroKm:metro,near,arrived,meetingDistanceMeters:meetingDistance(),meetingDays:[...meetingDays]};}
