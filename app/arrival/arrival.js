@@ -10,18 +10,22 @@
  return mini?{x:nx,y:ny}:{x:oldX*(1-gather)+((a+b)/2+(nx-18)*scale)*gather,y:oldY*(1-gather)+(34+(ny-11)*scale)*gather};});
  return pts.map((n,i)=>(i?'L':'M')+n.x.toFixed(2)+' '+n.y.toFixed(2)).join(' ')
  }const pull=clamp(1-d/initial),count=25;
-if(!rope){rope=Array.from({length:count},(_,i)=>{const f=i/(count-1);return{x:2+29*f,y:11+12*f*f,vx:0,vy:0}});ropeTime=state.time;}
+if(!rope){rope=Array.from({length:count},(_,i)=>{const f=i/(count-1);return{x:2+32*f,y:11+9*Math.sin(Math.PI*f),vx:0,vy:0}});ropeTime=state.time;}
 let dt=Math.min(.05,Math.max(0,state.time-ropeTime));ropeTime=state.time;
-if(state.tapAt!==undefined&&state.tapAt!==lastTap){lastTap=state.tapAt;for(let i=1;i<count;i++)rope[i].vy-=18*i/(count-1);}
+if(state.tapAt!==undefined&&state.tapAt!==lastTap){lastTap=state.tapAt;for(let i=1;i<count-1;i++)rope[i].vy-=18*Math.sin(Math.PI*i/(count-1));}
 if(dt>0&&!reduced){const steps=Math.max(1,Math.ceil(dt/.008)),h=dt/steps;
 for(let k=0;k<steps;k++){const old=rope.map(n=>({x:n.x,y:n.y}));
-for(let i=1;i<count;i++){const n=rope[i],f=i/(count-1);const breeze=(Math.sin(state.time*1.3)+.35*Math.sin(state.time*2.7))*9*(1-pull);n.vx+=(breeze*f)*h;n.vy+=(12*(1-.75*pull))*h;
-if(i===count-1){const targetX=28+6*pull,targetY=19*(1-pull)+11*pull,stiff=70+230*Math.pow(pull,3);n.vx+=(targetX-n.x)*stiff*h;n.vy+=(targetY-n.y)*stiff*h;}
-const drag=Math.exp(-2.7*h);n.vx*=drag;n.vy*=drag;n.x+=n.vx*h;n.y+=n.vy*h;}
-const segment=(34-2*pull)/(count-1);
-for(let pass=0;pass<9;pass++){rope[0].x=2;rope[0].y=11;for(let i=1;i<count;i++){const l=rope[i-1],n=rope[i],dx=n.x-l.x,dy=n.y-l.y,len=Math.hypot(dx,dy)||1,fix=(len-segment)/len;if(i===1){n.x-=dx*fix;n.y-=dy*fix;}else{l.x+=dx*fix*.5;l.y+=dy*fix*.5;n.x-=dx*fix*.5;n.y-=dy*fix*.5;}}
-for(let i=1;i<count;i++){const n=rope[i],dx=n.x-18,dy=n.y-11,dist=Math.hypot(dx,dy),limit=20;if(dist>limit){n.x=18+dx*limit/dist;n.y=11+dy*limit/dist;}}}
-for(let i=1;i<count;i++){rope[i].vx=(rope[i].x-old[i].x)/h;rope[i].vy=(rope[i].y-old[i].y)/h;}}
+for(let i=1;i<count-1;i++){const n=rope[i],f=i/(count-1),envelope=Math.sin(Math.PI*f);
+const breeze=(Math.sin(state.time*(1.4+3*pull))+.25*Math.sin(state.time*3.1))*18;
+n.vx+=breeze*.15*envelope*h;n.vy+=(20+breeze*envelope)*h;
+const drag=Math.exp(-3.2*h);n.vx*=drag;n.vy*=drag;n.x+=n.vx*h;n.y+=n.vy*h;}
+const segment=(38-5.95*pull)/(count-1);
+for(let pass=0;pass<24;pass++){rope[0].x=2;rope[0].y=11;rope[count-1].x=34;rope[count-1].y=11;
+for(let i=1;i<count;i++){const l=rope[i-1],n=rope[i],dx=n.x-l.x,dy=n.y-l.y,len=Math.hypot(dx,dy)||1,fix=(len-segment)/len;
+if(i===1){n.x-=dx*fix;n.y-=dy*fix;}else if(i===count-1){l.x+=dx*fix;l.y+=dy*fix;}else{l.x+=dx*fix*.5;l.y+=dy*fix*.5;n.x-=dx*fix*.5;n.y-=dy*fix*.5;}}}
+for(let i=1;i<count-1;i++){rope[i].vx=(rope[i].x-old[i].x)/h;rope[i].vy=(rope[i].y-old[i].y)/h;}
+rope[0]={x:2,y:11,vx:0,vy:0};rope[count-1]={x:34,y:11,vx:0,vy:0};}
+
 }
 if(reduced){for(let i=0;i<count;i++){let f=i/(count-1);rope[i].x=2+32*f;rope[i].y=11+10*(1-pull)*Math.sin(Math.PI*f);}}
 return rope.map((n,i)=>{const x=mini?n.x:a+(n.x-2)/32*(b-a),y=mini?n.y:31+(n.y-11)*2;return(i?'L':'M')+x.toFixed(2)+' '+y.toFixed(2)}).join(' ')}all('.left-thread').forEach(e=>e.setAttribute('d',thread(29,282,Math.max(bus,metro),8.2)));const ease=t=>t*t*(3-2*t),k=ease(p);for(const [name,x] of [['bus',38],['metro',292]]){const e=$('.route-'+name);e.setAttribute('cx',(x+(165-x)*k).toFixed(1));e.setAttribute('cy',(12+133*k).toFixed(1));}all('[data-born]').forEach(e=>e.classList.toggle('hidden',film&&state.time<Number(e.dataset.born)));all('.surface-tabs button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.surface===state.surface)));$('#expand-button').textContent='상대가 실 톡 건드리기';$('#expand-button').hidden=state.surface!=='home';$('#progress').value=p*100;$('#progress-value').textContent=arrived?'바로 가까이':near?'1 km 안':p===0?'출발':Math.round(p*100)+'%';renderMeeting();return{...state,busKm:bus,metroKm:metro,near,arrived,meetingDistanceMeters:meetingDistance(),meetingDays:[...meetingDays]};}
