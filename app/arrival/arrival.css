@@ -26,3 +26,5 @@
 
 /* Let the two endpoint marks give way to one shared knot. */
 .is-tying .thread-art g{opacity:0;transition:opacity 1s}.is-tying .thread-art .left-thread{stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+.meeting-controls #meet-confirm{width:100%;padding:15px;border-radius:16px;background:var(--red);color:#fff;border:0;font-weight:600}.meeting-controls button:disabled,.lock-meet:disabled{opacity:.35;cursor:default}.meeting-controls .meeting-diary{display:block;padding:18px 0}.meeting-controls .meeting-calendar,.calendar-week{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}.meeting-calendar span{min-height:30px;display:grid;place-items:center;font-size:12px;border-radius:9px}.calendar-week{font-size:10px;color:#8f99a6;margin-bottom:8px}.meeting-calendar .met-day{background:#f052602b;color:#ff8d98}.meeting-calendar .today{outline:1px solid #f0526070}#today-meeting,#meeting-distance{font-size:12px;color:#e997a0}#meeting-count{font-size:12px}.lock-meet{background:#f05260;border:0;border-radius:20px;padding:8px 16px;color:white;display:block;margin:8px auto 0;font-size:12px}
