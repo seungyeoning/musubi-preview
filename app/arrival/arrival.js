@@ -10,19 +10,16 @@
  return mini?{x:nx,y:ny}:{x:oldX*(1-gather)+((a+b)/2+(nx-18)*scale)*gather,y:oldY*(1-gather)+(34+(ny-11)*scale)*gather};});
  return pts.map((n,i)=>(i?'L':'M')+n.x.toFixed(2)+' '+n.y.toFixed(2)).join(' ')
  }const pull=clamp(1-d/initial);
-// Model one complete rope, then show only my half. The right edge is a crop,
-// not a second tied endpoint. Continuous hand waves travel into the slack.
-const slack=Math.pow(1-pull,1.2),amplitude=.65+4.3*slack,frequency=2.5+1.7*pull;
-const fullRope=Array.from({length:49},(_,i)=>{const u=i/48;
- const sag=6.5*slack*Math.sin(Math.PI*u);
- const fromMe=Math.sin(state.time*frequency-u*3.8);
- const fromYou=Math.sin(state.time*frequency-(1-u)*3.8+.7);
- const wave=reduced?0:amplitude*(fromMe*(1-u)+fromYou*u);
+// My half of the rope: its visible start and midpoint stay still.
+// One slow arm-like lift and fall every 5.8 seconds, with a slight soft lag.
+const slack=Math.pow(1-pull,1.2),amplitude=.4+6*slack,frequency=2*Math.PI/5.8;
+rope=Array.from({length:25},(_,i)=>{const f=i/24,envelope=Math.sin(Math.PI*f);
+ const sag=3.2*slack;
+ const wave=reduced?0:amplitude*Math.sin(state.time*frequency-.45*Math.sin(Math.PI*f));
  const age=state.tapAt===undefined?99:Math.max(0,state.time-state.tapAt);
- const tap=reduced?0:Math.sin(age*8-u*5)*Math.exp(-age*3)*(1.2+2*slack)*Math.sin(Math.PI*u);
- return {x:2+64*u,y:11+sag+wave+tap};
+ const tap=reduced?0:Math.sin(age*4)*Math.exp(-age*2)*(1+slack);
+ return {x:2+32*f,y:i===0||i===24?11:11+envelope*(sag+wave+tap)};
 });
-rope=fullRope.slice(0,25);
 return rope.map((n,i)=>{const x=mini?n.x:a+(n.x-2)/32*(b-a),y=mini?n.y:31+(n.y-11)*2;return(i?'L':'M')+x.toFixed(2)+' '+y.toFixed(2)}).join(' ')
 }all('.left-thread').forEach(e=>e.setAttribute('d',thread(29,282,Math.max(bus,metro),8.2)));const ease=t=>t*t*(3-2*t),k=ease(p);for(const [name,x] of [['bus',38],['metro',292]]){const e=$('.route-'+name);e.setAttribute('cx',(x+(165-x)*k).toFixed(1));e.setAttribute('cy',(12+133*k).toFixed(1));}all('[data-born]').forEach(e=>e.classList.toggle('hidden',film&&state.time<Number(e.dataset.born)));all('.surface-tabs button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.surface===state.surface)));$('#expand-button').textContent='상대가 실 톡 건드리기';$('#expand-button').hidden=state.surface!=='home';$('#progress').value=p*100;$('#progress-value').textContent=arrived?'바로 가까이':near?'1 km 안':p===0?'출발':Math.round(p*100)+'%';renderMeeting();return{...state,busKm:bus,metroKm:metro,near,arrived,meetingDistanceMeters:meetingDistance(),meetingDays:[...meetingDays]};}
 const MEET_RADIUS_METERS=50,RECORD_KEY='musubi.demo.meetingDays.v1';
